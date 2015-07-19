@@ -1,0 +1,23 @@
+#header{
+border-top:1px solid black;
+margin-top:10px;
+padding-top:10px;
+}
+#results ul{
+list-style-type:none;
+}
+#results ul .oracle{
+padding:4px;
+margin:2px;
+background:whitesmoke;
+}
+#results ul .manacost{
+padding-left:10px;
+}
+#results ul .manacost{
+padding-top:4px;
+padding-bottom:4px;
+}
+#results ul .loyalty{
+font-style:italic;
+}

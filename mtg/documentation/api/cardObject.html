@@ -1,0 +1,28 @@
+<html>
+<head><title>cardObject Documentation</title>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<h1>cardObject Documentation</h1>
+<h2>Properties</h2>
+<div class="prop">
+<h3>data</h3>
+Returns an object containing all available data about the cards.<br><br>
+<h4>Example</h4>
+<pre><code class="js">
+mtg.getCardByName("Elvish Mystic").data.manaCost // Returns {G}
+</code></pre>
+</div>
+<h2>Methods</h2>
+<h3>match</h3>
+Syntax :
+<pre><code class="js">Boolean cardObject.match(String query)</code></pre>
+Returns true if the card match the <a href="query.html">query</a> named <strong>query</strong>.<br><br>
+<h4>Example</h4>
+<pre><code class="js">
+mtg.getCardByName("Elvish Mystic").match("c!g o:add") // Returns true
+</code></pre>
+</body>
+</html>

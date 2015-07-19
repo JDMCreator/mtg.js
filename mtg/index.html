@@ -1,0 +1,54 @@
+<!doctype>
+<html>
+<head>
+<title>mtg.js Console</title>
+<link rel="stylesheet" href="mtg.css">
+<script type="text/javascript" src="mtg.js"></script>
+<script type="text/javascript">
+window.onload = function(){
+var textarea = document.getElementById('b'),
+value = localStorage.getItem("code")
+if(value){
+textarea.value = value;
+}
+textarea.addEventListener("keydown", function(e){
+	var end, start;
+	if(e.keyCode === 9){
+		start = this.selectionStart;
+		end = this.selectionEnd;
+		this.value = this.value.substring(0, start) + "\t" + this.value.substring(end);
+		this.selectionStart = this.selectionEnd = start + 1;
+		e.preventDefault();
+	}
+} , false);
+
+}
+function deleteCache(){
+	localStorage.setItem("code", "")
+}
+</script>
+<script type="text/javascript" src="database.js"></script>
+</head>
+<body>
+<div id="menu"> <a href="documentation/api.html">API</a> | <a href="documentation/license.html">License</a> | <a href="javascript:deleteCache()">Delete cache</a></div>
+<textarea id="b" style="width:80%;height:30%;" onblur="localStorage.setItem('code', this.value);">
+mtg.once(function(){
+	mtg.createElement("FORM", function(){
+		this.innerHTML = "<input id='input' size='30'><input type='submit' value='Search'>";
+		this.addEventListener("submit", function(e){
+			e.preventDefault();
+			var results = [];
+			mtg.query(document.getElementById('input').value, function(name){
+				results.push(name);
+			});
+			mtg.print(results.sort(), {full:true});
+		}, false)
+	});
+});
+</textarea>
+<br>
+<button onclick="run(document.getElementById('b').value)">Run!</button>
+<div id="header"></div>
+<div id="results"></div>
+</body>
+</html>

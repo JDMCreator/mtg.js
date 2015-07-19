@@ -1,0 +1,137 @@
+<html>
+<head><title>mtgObject Documentation</title>
+<link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/styles/default.min.css">
+<script src="http://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+</head>
+<body>
+<h1>mtgObject Documentation</h1>
+You can access the mtgObject using the <code>mtg</code> in the script environment.
+<h2>Properties</h2>
+<div class="prop">
+<h3>cards</h3>
+The object that contains the database. Modifications are not recommanded.<br><br>
+Informations about cards are stored in a key-value object. The key is the lower-cased name of the card.
+<h4>Example</h4>
+<pre><code class="js">
+mtg.cards["elvish mystic"].manaCost // Returns {G}
+</code></pre>
+</div>
+<div class="prop">
+<h3>version</h3>
+<code>String</code>. Contains the version of mtg.js
+</div>
+<h2>Methods</h2>
+<h3>createElement</h3>
+<div class="method">
+Syntax :
+<pre><code class="js">HTMLElement mtgObject.createElement(String tagName, [Optional Function callback])</code></pre>
+Create a new HTMLElement with the selected tagname. The function <code>callback</code> is then called, where the newly created HTMLElement is the value of <code>this</code>. The node is then added at the end of the page, before the results if any.
+
+<h4>Example</h4>
+<pre><code class="js">
+mtg.createElement("div", function(){
+	this.innerHTML = "hello world";
+});</pre></code>
+</div>
+<div class="method">
+<h3>forEach</h3>
+Syntax :
+<pre><code class="js">Boolean mtgObject.forEach(Function callback)</code></pre>
+Call the function <code>callback</code> for each individual cards in the database, where <code>this</code> inside the callback is the <a href="cardObject.html">cardObject</a> of the card and the argument <code>name</code> is the card's name.<br><br>
+If the callback returns <code>false</code>, the loop is stopped.
+<h4>Example</h4>
+<pre><code class="js">
+mtg.forEach(function(name){
+	if(name == "Elvish Mystic"){
+		alert(this.data.manaCost); // Alert "{G}"
+		return false;
+	}
+})
+</code></pre>
+</div>
+
+<div class="method">
+<h3>getCardByName</h3>
+Syntax :
+<pre><code class="js">cardObject mtgObject.getCardByName(String name)</code></pre>
+Returns the <a href="cardObject.html">cardObject</a> of the card named <code>name</code>. This function is case insensitive.
+<h4>Example</h4>
+<pre><code class="js">
+mtg.getCardByName("Elvish Mystic").match("t:elf") // Returns true
+</code></pre>
+</div>
+
+<div class="method">
+<h3>once</h3>
+Syntax :
+<pre><code class="js">mtgObject.once(Function first, [Optional Function second])</code></pre>
+Calls the function <code>first</code> if it was not called before. Otherwise, the function <code>second</code> is called. In both case, the result of the called function is returned.
+<h4>Example</h4>
+<pre><code class="js">
+var firstCalled = mtg.once(function(){
+				return true;
+			   },
+			   function(){
+				return false;
+		  	   }
+		  );
+</code></pre>
+</div>
+
+<div class="method">
+<h3>print</h3>
+Syntax :
+<pre><code class="js">mtgObject.once(Array results, [Optional Object options])</code></pre>
+Insert a list of Magic the Gathering cards at the end of the page. If a list was already inserted before, it is erased. The Array <code>results</code> can be an array of card's names, or an array of <a href="cardObject.html">cardObjects</a>.
+<br><br>
+The second argument can be used as an object to specify options.
+<table class="table_options"><tr><td>full</td><td><strong>true</strong> : Print multiple informations about each cards, like its name, its oracle, its power, its toughness, its mana cost and its loyalty.<br>
+<strong>false</strong> : Print only the name of the card as a link to magiccards.info or Gatherer<br>
+<strong>auto</strong> <em>(default)</em> : Print multiple informations if there're less than 100 results.</td></tr>
+<tr><td>url</td><td><strong>0</strong> <em>(default)</em> : Print the name as a link to <a href="http://magiccards.info">magiccards.info</a>.<br>
+<strong>1</strong> : Print the name as a link to <a href="http://gatherer.wizards.com">Gatherer</a>.</td></tr></table>
+<h4>Example</h4>
+<pre><code class="js">
+mtg.print(["Elvish Mystic", "Fyndhorn Elves", "Llanowar Elves"], {full:true});
+</code></pre>
+</div>
+
+<div class="method">
+<h3>query</h3>
+Syntax :
+<pre><code class="js">Array mtgObject.query(String queryText, [Optional Function callback])</code></pre>
+If it exists, the function <code>callback</code> is called for each card that match the <a href="query.html">query</a> named <code>queryText</code>, where <code>this</code> inside the callback is the <a href="cardObject.html">cardObject</a> of the card and the argument <code>name</code> is the card's name.
+If the callback returns <code>false</code>, the loop is stopped. Then, an array of <a href="cardObject.html">cardObjects</a> is returned, which are the results.
+<h4>Examples</h4>
+<pre><code class="js">
+mtg.query('(t:creature t:legendary f:commander) or o:"~ can be your commander"') // returns all generals
+</code></pre>
+<pre><code class="js">
+var results = []
+mtg.query('t:elf', function(name){
+	if(!this.data.text){
+		results.push(this);
+	}
+}) // Returns all elf without oracle
+mtg.print(results);
+</code></pre>
+</div>
+
+<div class="method">
+<h3>symbolize</h3>
+Syntax :
+<pre><code class="js">String mtgObject.symbolize(String text)</code></pre>
+Replace all Magic the Gathering symbols by the HTML code of their image, and newline caracters by &lt;br&gt;.
+<br><br>
+Here are the list of supported caracters : <code>{t}{q}{w}{u}{b}{r}{g}{s}{0} to {16}{w/u}{w/b}{u/b}{u/r}{b/r}{b/g}{r/g}{r/w}{g/w}{g/u}{2/w}{2/u}{2/b}{2/r}{2/g}{p}{wp}{up}{bp}{rp}{gp}{x}{y}{c}{pw}</code> 
+<h4>Examples</h4>
+<pre><code class="js">
+mtg.symbolize("{T}: Add {G} to your mana pool.")
+</code></pre>
+<pre><code class="js">
+mtg.symbolize(mtg.getCardByName("Elvish Mystic").data.manaCost)
+</code></pre>
+</div>
+</body>
+</html>

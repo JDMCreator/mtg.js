@@ -1,0 +1,73 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<script>
+window.mtgjsoncallback = function(data, name){
+create(data);
+}
+function create(p){
+var time = +new Date();
+var o = {};
+for(var i in p){
+var t = p[i],
+code = (t.magicCardsInfoCode || t.code).toLowerCase(),
+date = t.releaseDate.substring(0,4),
+border = t.border.toLowerCase(),
+typeSet = t.type.toLowerCase(),
+cards = t.cards;
+
+for(var j = 0, l = cards.length;j<l;j++){
+
+var c = cards[j];
+if(!o[c.name.toLowerCase()]){
+o[c.name.toLowerCase()] = {
+
+name : c.name,
+manaCost : c.manaCost,
+cmc : c.cmc,
+type : c.type,
+types : c.types,
+subtypes : c.subtypes,
+colors : c.colors,
+text : c.text,
+power : c.power,
+toughness : c.toughness,
+loyalty : c.loyalty,
+reserved : c.reserved,
+printingCodes : c.printingCodes,
+legalities : c.legalities,
+rarity : {},
+sets : {},
+years : [],
+artists : [],
+artistsAvailable : {},
+borders : {},
+setTypes : {},
+}
+}
+
+var card = o[c.name.toLowerCase()];
+card.rarity[c.rarity.toLowerCase()] = true;
+card.artistsAvailable[c.artist.toLowerCase()] = true;
+card.artists.push(c.artist);
+card.years.push(date);
+if(c.timeshifted){
+card.timeshifted = true;
+}
+card.borders[border] = true;
+card.setTypes[typeSet] = true;
+card.sets[code] = true;
+}
+
+}
+console.dir(o);
+console.log("mtgJSON("+JSON.stringify(o)+")");
+console.info("Generated in " + ((+new Date())-time) + "ms.");
+}
+function load(){
+var s = document.createElement("script");
+s.type = "text/javascript";
+s.src = "http://mtgjson.com/json/AllSets-x.jsonp"
+document.head.appendChild(s);
+}
+</script>
+To create, click on the following button. The generated code will be in the console. Copy/paste it in database.js. It takes a long time, don't click on the button twice.<br><br>
+<button onclick="load()">Create JS File</button><br>

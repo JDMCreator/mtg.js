@@ -1,0 +1,278 @@
+<!doctype>
+<html>
+<head>
+<title>Query syntax</title>
+<style media="all" type="text/css">
+.supported{
+background:darkgreen;
+color:#FFF;
+}
+.partially{
+background:darkorange;
+}
+.almost{
+background:lightgreen;
+}
+.unsupported{
+background:red;
+}
+table{
+text-align:center;
+}
+table tr td:first-child{
+text-align:right;
+}
+table tr td:last-child{
+text-align:center;
+}
+table tr td:only-child{
+background:gray;
+}
+</style>
+</head>
+<body>
+<h1>Syntax of queries</h1>
+<p>mtg.js uses the <a href="http://magiccards.info/syntax.html">magiccards.info's syntax</a>. However, some parts of the syntax are not supported and some are new.
+<h2>Compatibility table</h2>
+<table border="1" cellpadding="0" cellspacing="0">
+	<tbody>
+		<tr>
+			<td colspan="2" style="width:585px">
+			<p>Operator</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Space operator</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>AND operator</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>OR operator</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>NOT operator</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>- operator</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Parenthesis</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>! operator</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>++ operator</p>
+			</td>
+			<td style="width:293px" class="unsupported">
+			<p>Unsupported</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="width:585px">
+			<p>Information</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Name (with or without quotes)</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Rules text (o: )</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Types (t: )</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Converted mana cost (cmc: )</p>
+			</td>
+			<td style="width:293px" class="almost">
+			<p>Almost</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Power (pow: )</p>
+			</td>
+			<td style="width:293px" class="almost">
+			<p>Almost</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Toughness (tou: )</p>
+			</td>
+			<td style="width:293px" class="almost">
+			<p>Almost</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Mana cost (mana)</p>
+			</td>
+			<td style="width:293px" class="unsupported">
+			<p>Unsupported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Timeshifted (is:timeshifted)</p>
+			</td>
+			<td style="width:293px" class="partially">
+			<p>Partially</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Colors (c:)</p>
+			</td>
+			<td style="width:293px" class="partially">
+			<p>Partially</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Rarity (r:)</p>
+			</td>
+			<td style="width:293px" class="almost">
+			<p>Almost</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Artist (a:)</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="width:585px">
+			<p>Custom rules</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Regular expressions and Oracle (reg&nbsp;:)</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Abilities (ab:)</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Loyalty (loy:)</p>
+			</td>
+			<td style="width:293px" class="almost">
+			<p>Almost</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Hybrid mana in mana cost (is:hybrid)</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+		<tr>
+			<td style="width:293px">
+			<p>Monohybrid mana in mana cost (is:monohybrid)</p>
+			</td>
+			<td style="width:293px" class="supported">
+			<p>Supported</p>
+			</td>
+		</tr>
+	</tbody>
+</table>
+All others are unsupported for now.
+<h2>New syntax</h2>
+<h3>Regular expressions</h3>
+Use a regular expression to match with the oracle.
+<h4>Examples</h4>
+<pre><code>reg:"\{[1-9]\}"</code></pre>
+<pre><code>reg:/add \{[wgrbu]\} to your mana pool/g</code></pre>
+
+<h3>Abilities</h3>
+Match cards with the specified ability.
+<h4>Example</h4>
+<pre><code>ab:flying</code></pre>
+
+<h3>Loyalty</h3>
+Match cards with the specified loyalty
+<h4>Examples</h4>
+<pre><code>loy=4</code></pre>
+<pre><code>loy&lt;4</code></pre>
+<pre><code>loy&gt;cmc</code></pre>
+
+<h3>Hybrid</h3>
+Match cards with hybrid mana in their mana cost (ex : {G/W})
+<h4>Example</h4>
+<pre><code>is:hybrid</code></pre>
+
+<h3>Monohybrid</h3>
+Match cards with monohybrid mana in their mana cost (ex : {2/W})
+<h4>Example</h4>
+<pre><code>is:monohybrid</code></pre>
+</body>
+</html>
